@@ -118,6 +118,32 @@ Kullanım için: [examples/exchange-and-converter.html](https://github.com/aydin
 </script>
 ```
 
-## Lisans
-- TCMB,MIT Lisansı altında lisanslanmıştır.
-  - [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
+
+## TCMB'den kurları almak
+
+Bu işlem için kendi sunucumuzda kullandığımız programlama dili ile bu işlemi yapacak basit bir uygulama 
+hazırlamamamız gerekiyor, ben şuan PHP geliştirdiğim için PHP ve kullandığım LARAVEL frameworkünden dolayı
+LARAVEL için örnekler göstereceğim.
+
+### PHP
+
+```
+<?php
+header('Content-type: application/xml');
+echo file_get_contents('http://www.tcmb.gov.tr/kurlar/today.xml');
+```
+bur örnek için [tcmb_currency.php](https://github.com/aydinbulut07/TCMB/blob/master/examples/api/tcmb_currency.php) dosyasını görüntüleyebilirsiniz.
+
+### PHP LARAVEL FRAMEWROK
+
+Laravel 5.4 içindir bu anlatım.
+
+Bu işlem için routing dosyalarından routes/api.php dosyasını kullanarak aşağıdaki tanımlamayı kullanmamız yeterlidir.
+```
+Route::get('exchange', function () {
+    header('Content-type: application/xml');
+    echo file_get_contents('http://www.tcmb.gov.tr/kurlar/today.xml');
+});
+
+// bu uygulamaya erişmek için /api/exchange adresine ajax isteği göndermemiz yeterlidir. 
+```
