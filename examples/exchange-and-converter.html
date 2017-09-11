@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DÖVİZ KURLARI VE ÇEVİRİCİ</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="css/custom.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">DÖVİZ KURLARI</div>
+                    <div class="panel-body">
+
+                        <!-- The Converter will be injected to in this element -->
+                        <div id="exchange">Yükleniyor...</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">DÖVİZ ÇEVİRİCİ</div>
+                    <div class="panel-body">
+
+                        <!-- The Converter will be injected to in this element -->
+                        <div id="converter">Yükleniyor...</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="../source/tcmb-currency.js"></script>
+    <script>
+        // init currency loader with the api address
+        // that fetches xml data from http://www.tcmb.gov.tr/kurlar/today.xml
+        load_tcmb_currencies('/examples/api/tcmb_currency.php');
+
+        // since AUD is not added by default
+        var currencies = {'USD':'$','EUR':'€','GBP':'£','AUD':'$'};
+
+        // ask to load currencies into the given element by a selector
+        load_exchange_table('#exchange',currencies);
+
+        // since AUD is not added by default
+        var currencies = ['USD','EUR','GBP','AUD'];
+        
+        // ask to load currencies into the given element by a selector
+        load_converter_form('#converter',currencies);
+    </script>
+</body>
+
+</html>

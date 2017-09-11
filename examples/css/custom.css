@@ -1,0 +1,8 @@
+#exchange .row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+#exchange .row > div {
+  padding-left: 5px;
+  padding-right: 5px;
+}
