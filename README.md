@@ -17,7 +17,7 @@ Bu uygulamayı kendi geliştridiğim bir web uygulamasında kullanmam gerektiği
 ### Döviz Kurlarını Göstermek 1 (Öntanımlı kurları göstermek)
 
 Ön tanımlı olarak Dolar, Euro ve Sterlin gösterilecektir.
-Kullanım için: examples/exchange.html sayfasını görüntüleyebilirsiniz
+Kullanım için: [examples/exchange.html](https://github.com/aydinbulut07/TCMB/blob/master/examples/exchange.html) sayfasını görüntüleyebilirsiniz
 
 ```
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -40,7 +40,7 @@ Kullanım için: examples/exchange.html sayfasını görüntüleyebilirsiniz
 ### Döviz Kurlarını Göstermek 2 (Belirlenen döviz kurlarını göstermek)
 
 Burada Dolar, Euro ve Sterlin'e ek olarak Avusturalya Doları'nı da göstermek istiyorum.
-Kullanım için: examples/exchange-and-converter.html sayfasını görüntüleyebilirsiniz
+Kullanım için: [examples/exchange-and-converter.html](https://github.com/aydinbulut07/TCMB/blob/master/examples/exchange-and-converter.html) sayfasını görüntüleyebilirsiniz
 
 ```
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -69,7 +69,7 @@ Kullanım için: examples/exchange-and-converter.html sayfasını görüntüleye
 ### Döviz Çevirici Eklemek 1 (Öntanımlı kurları çevirmek)
 
 Ön tanımlı olarak Dolar, Euro ve Sterlin çevirilecektir.
-Kullanım için: examples/converter.html sayfasını görüntüleyebilirsiniz
+Kullanım için: [examples/converter.html](https://github.com/aydinbulut07/TCMB/blob/master/examples/converter.html) sayfasını görüntüleyebilirsiniz
 
 ```
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -92,7 +92,7 @@ Kullanım için: examples/converter.html sayfasını görüntüleyebilirsiniz
 ### Döviz Çevirici Eklemek 2 (İstenilen kurları göstermek)
 
 Burada Dolar, Euro ve Sterlin'e ek olarak Avusturalya Doları'nı da çevirmek istiyorum.
-Kullanım için: examples/exchange-and-converter.html sayfasını görüntüleyebilirsiniz
+Kullanım için: [examples/exchange-and-converter.html](https://github.com/aydinbulut07/TCMB/blob/master/examples/exchange-and-converter.html) sayfasını görüntüleyebilirsiniz
 
 ```
 <script src="js/jquery-3.2.1.min.js"></script>
