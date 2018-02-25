@@ -11,7 +11,7 @@
  *
  * @return false|void
  */
-function load_tcmb_currencies(api_address) {
+function tcmb_load_tcmb_currencies(api_address) {
 
     $.ajax({
         type: 'get',
@@ -46,25 +46,17 @@ function load_tcmb_currencies(api_address) {
  *
  * @param curriencies is must be an object that contains currencies you wan to show up that associated with its title and symbole
  * example:
- * {
- *     'USD': '$',
- *     'EUR': '€',
- *     'GBP': '£'
- * }
+ * [ 'USD','EUR','GBP']
  *
  * @param template you should send your template if default one is not satisfy your expactions and you can use keys showed below
  * the keys you use are: {title}, {symbole}(associated with its key), {selling}, {buying}
  */
-function load_exchange_table(container, curriencies, template) {
+function tcmb_load_exchange_table(container, curriencies, template) {
     const $container = $(container);
 
     // set default currencies if not specified
     if (typeof curriencies === 'undefined')
-        curriencies = {
-            'USD': '$',
-            'EUR': '€',
-            'GBP': '£'
-        };
+        curriencies = ['USD','EUR','GBP'];
 
     // set default template if not specified
     if (typeof template === 'undefined')
@@ -123,7 +115,7 @@ function load_exchange_table(container, curriencies, template) {
  *
  * @param selectBoxName
  */
-function load_converter_form(container, currencies, template, selectBoxName) {
+function tcmb_load_converter_form(container, currencies, template, selectBoxName) {
     const $container = $(container);
 
     // set default currencies if not specified
@@ -208,7 +200,7 @@ function load_converter_form(container, currencies, template, selectBoxName) {
  * @param selectBoxName
  * @returns {boolean}
  */
-function convert_currencies(container, selectBoxName) {
+function tcmb_convert_currencies(container, selectBoxName) {
     const $container = $(container);
     const convert_type = $('select[name="' + selectBoxName + '"]').find('option:selected').val();
     const money_amount = parseFloat($('input[name="money_amount"]').val());
