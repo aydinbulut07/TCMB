@@ -1,7 +1,16 @@
-/*
-this function requires an address on our server 
-that fetches xml data from http://www.tcmb.gov.tr/kurlar/today.xml
-*/
+/**
+ * This function loads currencies to localstorage and fires an event to its listeners to inform them that currencis are
+ * available
+ *
+ *
+ * This function requires an address on our server
+ * that fetches xml data from http://www.tcmb.gov.tr/kurlar/today.xml
+ *
+ * @param api_address
+ *
+ *
+ * @return false|void
+ */
 function load_tcmb_currencies(api_address) {
 
     $.ajax({
@@ -29,24 +38,25 @@ function load_tcmb_currencies(api_address) {
     });
 }
 
-/*
-this function writes asked curriecies to the gicen element selector
-by default it is writes twitter bootstrap temple
-but you can use your own template
-the keys you use are: {title}, {symbole}(associated with its key), {selling}, {buying}
-
-@param "elmSelector" is must be a selector that you want to load the template in it
-@param "currencies" is must be an object that contains currencies you wan to show up that associated with its title and symbole
-       example: 
-            { 
-                'USD': '$',
-                'EUR': '€',
-                'GBP': '£'
-            } 
-@param "template" you should send your template if default one is not satisfy your expactions and you can use keys showed above 
-*/
-function load_exchange_table(elmSelector, curriencies, template) {
-    var container = $(elmSelector);
+/**
+ * This function writes currency table to given element by its identifier
+ *
+ *
+ * @param container is must be a selector that you want to load the template in it
+ *
+ * @param curriencies is must be an object that contains currencies you wan to show up that associated with its title and symbole
+ * example:
+ * {
+ *     'USD': '$',
+ *     'EUR': '€',
+ *     'GBP': '£'
+ * }
+ *
+ * @param template you should send your template if default one is not satisfy your expactions and you can use keys showed below
+ * the keys you use are: {title}, {symbole}(associated with its key), {selling}, {buying}
+ */
+function load_exchange_table(container, curriencies, template) {
+    const $container = $(container);
 
     // set default currencies if not specified
     if (typeof curriencies === 'undefined')
@@ -72,12 +82,11 @@ function load_exchange_table(elmSelector, curriencies, template) {
     $(document).on('tcmb_loaded', function () {
         var tcmb, currency, code, opt, title, symbole, tmp;
 
-
         // create documentElement to load currencies into
         tcmb = localStorage.getItem('tcmb_currency');
 
         // first clean inner html
-        $(container).html('');
+        $container.html('');
 
         // loop over asked curriencies
         Object.entries(curriencies).forEach(function (elm) {
@@ -95,24 +104,27 @@ function load_exchange_table(elmSelector, curriencies, template) {
             tmp = tmp.replace('{buying}', $(currency).find('banknotebuying').text());
 
             // append new template
-            $(container).append(tmp);
+            $container.append(tmp);
         });
     });
 
 }
 
-
-/*
-This function loads converion form
-by default it is writes twitter bootstrap temple
-but you can use your own template
-the only key you can use is: {convertingOptions} for selectbox options to be replaced
-
-@param "elmSelector" is must be a selector that you want to load the template in it
-@param "currencies" is must be array of currencies list other than TRY that you want to use in converter 
-*/
-function load_converter_form(elmSelector, currencies, template, selectBoxName) {
-    var container = $(elmSelector);
+/**
+ * This function loads currency exchanger into given element by its identifier
+ *
+ *
+ * @param container is must be a selector that you want to load the template in it
+ *
+ * @param currencies is must be array of currencies list other than TRY that you want to use in converter
+ *
+ * @param template
+ * the only key you can use is: {convertingOptions} for selectbox options to be replaced
+ *
+ * @param selectBoxName
+ */
+function load_converter_form(container, currencies, template, selectBoxName) {
+    const $container = $(container);
 
     // set default currencies if not specified
     if (typeof currencies === 'undefined')
@@ -134,8 +146,8 @@ function load_converter_form(elmSelector, currencies, template, selectBoxName) {
         template = '\
             <form id="tcmb_currency_converter" name="tcmb_currency_converter">\
                 <div class="form-group">\
-                    <label for="'+ selectBoxName + '">Çeviri</label>\
-                    <select name="'+ selectBoxName + '" id="' + selectBoxName + '" class="form-control">\
+                    <label for="' + selectBoxName + '">Çeviri</label>\
+                    <select name="' + selectBoxName + '" id="' + selectBoxName + '" class="form-control">\
                         <option value="">Seçim yapınız</option>\
                         {convertingOptions}\
                     </select>\
@@ -161,7 +173,7 @@ function load_converter_form(elmSelector, currencies, template, selectBoxName) {
         // loop over asked curriencies
         convertingOptions.forEach(function (elm) {
             from = elm[0] === 'TRY' ? 'TÜRK LİRASI' : $(tcmb).find('Currency[CurrencyCode="' + elm[0] + '"] Isim').text();
-            to =  elm[1] === 'TRY' ? 'TÜRK LİRASI' : $(tcmb).find('Currency[CurrencyCode="' + elm[1] + '"] Isim').text();
+            to = elm[1] === 'TRY' ? 'TÜRK LİRASI' : $(tcmb).find('Currency[CurrencyCode="' + elm[1] + '"] Isim').text();
 
             // replace values with their placeholders
             options += '<option value="' + elm.join('-') + '">' + from + ' - ' + to + '</option>';
@@ -172,46 +184,52 @@ function load_converter_form(elmSelector, currencies, template, selectBoxName) {
         template = template.replace('{convertingOptions}', options);
 
         // place new template
-        $(elmSelector).html(template);
+        $container.html(template);
     });
 
     // listen for select box change
     $(document).on('change', 'select[name="' + selectBoxName + '"]', function (e) {
-        convert_currencies(elmSelector, selectBoxName);
+        convert_currencies(container, selectBoxName);
     });
 
     // listen for money amount change
     $(document).on('keyup change', 'input[name="money_amount"]', function (e) {
-        convert_currencies(elmSelector, selectBoxName);
+        convert_currencies(container, selectBoxName);
     });
 
 }
 
-/* 
-this function listens to converter form changes and calculates result then prints out
-and this functions is being called automacilally on each change event on conversion type or money amount
-*/
-function convert_currencies(elmSelector, selectBoxName) {
-    var convert_type = $('select[name="' + selectBoxName + '"]').find('option:selected').val();
-    var money_amount = parseFloat($('input[name="money_amount"]').val());
-    var tcmb = localStorage.getItem('tcmb_currency');
+/**
+ * This function listens to converter form changes and prints out conversion result
+ * And this function is being called automacilally on each change event on conversion type or money amount
+ *
+ *
+ * @param container container element that contains the form
+ * @param selectBoxName
+ * @returns {boolean}
+ */
+function convert_currencies(container, selectBoxName) {
+    const $container = $(container);
+    const convert_type = $('select[name="' + selectBoxName + '"]').find('option:selected').val();
+    const money_amount = parseFloat($('input[name="money_amount"]').val());
+    const tcmb = localStorage.getItem('tcmb_currency');
 
     // reset form if requirements failed
     if (convert_type === '' || isNaN(money_amount)) {
-        $(elmSelector).find('input[name="total"]').val('');
+        $(container).find('input[name="total"]').val('');
         return false;
     }
 
     // get asked conversion
-    var currencies = convert_type.split('-');
-    var from = currencies[0];
-    var to = currencies[1];
-    var foreing = from !== 'TRY' ? from : to;
-    var banknoteselling = parseFloat($(tcmb).find('Currency[CurrencyCode="' + foreing + '"] banknoteselling').text());
+    const currencies = convert_type.split('-');
+    const from = currencies[0];
+    const to = currencies[1];
+    const foreing = from !== 'TRY' ? from : to;
+    const banknoteselling = parseFloat($(tcmb).find('Currency[CurrencyCode="' + foreing + '"] banknoteselling').text());
 
     // get calculation
     var total = from === 'TRY' ? money_amount / banknoteselling : money_amount * banknoteselling;
     total = Math.round(total * 100) / 100;
 
-    $(elmSelector).find('input[name="total"]').val(total + ' ' + to);
+    $(container).find('input[name="total"]').val(total + ' ' + to);
 }
